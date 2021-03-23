@@ -1,0 +1,259 @@
+@import 'config';
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  // @include _widthVw(1400);
+  // @include _widthPercent(1400);
+  padding-right: 15%;
+  padding-left: 15%;
+  width: 100%;
+  position: relative;
+  height: 100%;
+  align-self: stretch;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+}
+
+.main {}
+
+.burger__menu {
+  z-index: 2;
+  display: none;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+
+  span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: $accent;
+    @include _borderRadius(5px);
+    @include _transition(all, .5s);
+    top: 50%;
+    right: 50%;
+    opacity: 1;
+
+    transform: translate(50%, -50%);
+  }
+
+  &::before,
+  &::after {
+    position: absolute;
+    background: $accent;
+    @include _borderRadius(5px);
+    @include _transition(all, .5s);
+    width: 100%;
+    height: 5px;
+    display: block;
+    content: '';
+  }
+
+  &::before {
+    top: 3px;
+    // left: 0;
+  }
+
+  &::after {
+    bottom: 3px;
+    // left: 0;
+  }
+
+  &.__clicked {
+    span {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    &::before {
+      transform: rotate(-225deg);
+      top: 17.5px;
+    }
+
+    &::after {
+      transform: rotate(225deg);
+      bottom: 17.5px;
+
+
+
+    }
+  }
+
+  @media only screen and (max-width : 1024px) {
+    display: flex;
+  }
+
+}
+
+.popup {
+  @include _transition(all, .1s);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100500;
+  display: none;
+}
+
+.popup__overlay {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+input,
+textarea {
+  padding: 10px 20px;
+  @extend .p;
+  @include _borderRadius(5px);
+  border: none;
+  background: #060b0d;
+  color: $textColor;
+}
+
+.form__popup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: $mainColor;
+  @include _borderRadius(5px);
+  @include _transition(all, .1s);
+  -webkit-animation-duration: .5s;
+  animation-duration: .5s;
+  z-index: 2;
+  width: 95%;
+  max-width: 500px;
+  padding: 50px 20px;
+
+
+  &-input {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 15px;
+    }
+  }
+
+  &-textarea {
+    margin-bottom: 15px;
+  }
+
+
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+
+  @include _transition(transform, .3s);
+
+  span {
+    @include _borderRadius(5%);
+    position: absolute;
+    // top: 0%;
+    right: 0%;
+    transform: rotate(45deg);
+    display: block;
+    background: $textColor;
+    width: 100%;
+    height: 3px;
+    bottom: 10px;
+
+    &::before {
+      @include _borderRadius(5%); // top: 0%;
+      right: 0%;
+      bottom: 10px;
+      content: '';
+      position: absolute;
+      top: 0;
+      transform: rotate(-90deg);
+      display: block;
+      background: $textColor;
+      width: 100%;
+      height: 3px;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.btn {
+  display: flex;
+  padding: 0 10px;
+  width: 100%;
+  @include adaptive(max-width, 200, 250, 0);
+  height: 45px;
+  align-items: center;
+  justify-content: center;
+  @include _borderRadius(5px);
+  @include _transition(all, .2s);
+
+  background: $accent;
+  color: #fff;
+
+  &:hover {
+    background: $accentSecond;
+  }
+}
+
+.accordion {
+  &-item {
+    width: 100%;
+    border: 1px solid black;
+    margin-bottom: 10px;
+
+    // .accordion-item__title
+    &__title {
+      font-size: 20px;
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    // .accordion-item__content
+    &__content {
+      transition: height .25s ease;
+      overflow: hidden;
+
+      // .accordion-item__content-wrapp 
+      &-wrapp {
+        @include _transition(all, .8s);
+        font-size: 16px;
+        padding: 5px;
+        opacity: 1;
+      }
+
+      &:not(.active) {
+        display: none;
+
+        .accordion-item__content-wrapp {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
