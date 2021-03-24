@@ -1,5 +1,3 @@
-/** @format */
-
 let fileswatch = "html,htm,txt,json,md,woff2"; // List of files extensions for watching & hard reload
 
 const { src, dest, parallel, series, watch } = require("gulp");
@@ -20,7 +18,7 @@ const cleanCss = require("gulp-clean-css");
 const pug = require("gulp-pug");
 const bssi = require("browsersync-ssi");
 const ssi = require("ssi");
-const distFolder = require("path").basename(__dirname); //project folder name
+const distFolder = "dist"; //project folder name
 const appFolder = "app"; //work folder name
 // path to folder
 const path = {

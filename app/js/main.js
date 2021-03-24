@@ -12,31 +12,68 @@ import loadingAttributePolyfill from "loading-attribute-polyfill";
 // require("./vendor/mail.js");
 // import module example (npm i -D jquery)
 
-// variable
+// variable start
 document.addEventListener("DOMContentLoaded", () => {
   const phoneInput = document.querySelectorAll("input[type=tel]");
   const images = document.querySelectorAll("img");
-  const modalForms = document.querySelector(".modal__form");
+  const modalWindows = document.querySelector(".modal__window");
   const phoneLink = document.querySelectorAll("a[href^='tel']");
-  const formPopup = document.querySelector(".form__popup");
-
+  const showPhotos = document.querySelectorAll(".show__photo");
+  const popupPhoto = document.querySelector("#popup__photo");
+  const popupPhotoImg = document.querySelector(".photo__popup-img");
+  const popupPhotoTitle = document.querySelector(".photo__popup-title");
   const showPopup = document.querySelectorAll(".show__popup");
   const closePopup = document.querySelectorAll(".close__popup");
   const sendForms = document.querySelectorAll(".send__form");
   const burgerMenu = document.querySelector(".burger__menu");
   const menu = document.querySelector(".menu");
   const body = document.querySelector("body");
-
-  const accordionItemTitles = document.querySelectorAll(
-    ".accordion-item__title"
-  );
+  const accordionItemTitles = document.querySelectorAll(".accordion-item");
   const customSelect = document.querySelectorAll(".custom-select-wrapper");
+  // variable start
+
   let phoneMaskBy = new inputmask({
     mask: "+375-99-999-99-99",
     clearIncomplete: true,
     greedy: false,
   });
 
+  // Toggle popup function
+  const popupToggle = (
+    popUp,
+    popUpElement,
+    el1ShowClassAdd,
+    el2ShowClassAdd,
+    el1HideClassRemove,
+    el2HideClassRemove,
+    state,
+    timing
+  ) => {
+    popUp.classList.add(el1ShowClassAdd);
+    popUp.classList.remove(el1HideClassRemove);
+    popUpElement.classList.remove(el2HideClassRemove);
+    popUpElement.classList.add(el2ShowClassAdd);
+    body.classList.toggle("__fixed");
+    setTimeout(function FormFadeIn() {
+      popUp.style.display = state;
+    }, timing);
+  };
+  // popup Close function start
+  const popupClose = () => {
+    if (window.getComputedStyle(modalWindows).display === "flex") {
+      const formItem = modalWindows.querySelector("form");
+      popupToggle(
+        modalWindows,
+        formItem,
+        "animate__fadeOut",
+        "animate__bounceOutUp",
+        "animate__fadeIn",
+        "animate__bounceInDown",
+        "none",
+        1000
+      );
+    }
+  };
   const attrClear = (item, attr, sw) => {
     let str = item.getAttribute(attr);
 
@@ -79,6 +116,28 @@ document.addEventListener("DOMContentLoaded", () => {
       phoneMaskBy.mask(phoneMask);
     });
   }
+  // showPhotos click
+  if (showPhotos.length > 0) {
+    showPhotos.forEach((showPhoto) => {
+      showPhoto.addEventListener("click", function (e) {
+        e.preventDefault();
+        const title = this.title;
+        const img = this.href;
+        popupPhotoTitle.innerHTML = title;
+        popupPhotoImg.src = img;
+        popupToggle(
+          popupPhoto,
+          popupPhotoImg,
+          "animate__fadeIn",
+          "animate__bounceIn",
+          "animate__fadeOut",
+          "animate__bounceOut",
+          "flex",
+          100
+        );
+      });
+    });
+  }
 
   //  burgerMenu function
   if (burgerMenu) {
@@ -106,45 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
     classRemove(".menu.__show", "__show");
   });
 
-  // Toggle popup function
-  const popupToggle = (
-    popUp,
-    popUpElement,
-    el1ShowClassAdd,
-    el2ShowClassAdd,
-    el1HideClassRemove,
-    el2HideClassRemove,
-    state,
-    timing
-  ) => {
-    popUp.classList.add(el1ShowClassAdd);
-    popUp.classList.remove(el1HideClassRemove);
-    popUpElement.classList.remove(el2HideClassRemove);
-    popUpElement.classList.add(el2ShowClassAdd);
-    body.classList.toggle("__fixed");
-    setTimeout(function FormFadeIn() {
-      popUp.style.display = state;
-    }, timing);
-  };
-
   // show popUp start
   if (showPopup.length > 0) {
     for (let i = 0; i < showPopup.length; i++) {
       const btn = showPopup[i];
       btn.addEventListener("click", function (e) {
         const popupType = this.dataset.type;
-        if (this.classList.contains("order__certificates")) {
-          document.querySelector(
-            "#certificate__name"
-          ).value = this.dataset.name;
-          document.querySelector(
-            "#certificate__point"
-          ).value = this.dataset.count;
-        }
         e.preventDefault();
-        const targetPopup = document.querySelector(".popup" + popupType + "");
+        const targetPopup = document.querySelector(".popup--" + popupType + "");
 
-        const targetPopupForm = targetPopup.querySelector(".form__popup");
+        const targetPopupForm = targetPopup.querySelector("form");
         popupToggle(
           targetPopup,
           targetPopupForm,
@@ -157,63 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       });
     }
-  }
-  // popup Close function start
-  const popupClose = () => {
-    if (modalForms.length > 0) {
-      modalForms.forEach((item) => {
-        if (!item.classList.contains(".popup__photo")) {
-          if (window.getComputedStyle(item).display === "flex") {
-            const formItem = item.querySelector(".form__popup");
-            popupToggle(
-              item,
-              formItem,
-              "animate__fadeOut",
-              "animate__bounceOutUp",
-              "animate__fadeIn",
-              "animate__bounceInDown",
-              "none",
-              1000
-            );
-          }
-        }
-      });
-    }
-    // if (popupPhoto.length > 0) {
-    if (window.getComputedStyle(popupPhoto).display === "flex") {
-      popupToggle(
-        popupPhoto,
-        popupPhotoImg,
-        "animate__fadeOut",
-        "animate__bounceOut",
-        "animate__fadeIn",
-        "animate__bounceIn",
-        "none",
-        1000
-      );
-    }
-    if (window.getComputedStyle(popupThanks).display === "flex") {
-      popupToggle(
-        popupThanks,
-        thanksMessage,
-        "animate__fadeOut",
-        "animate__bounceOut",
-        "animate__fadeIn",
-        "animate__bounceIn",
-        "none",
-        1000
-      );
-    }
-    // }
-  };
-  // call close popup func on popUp overlay click
-  if (popupBg.length > 0) {
-    popupBg.forEach(function (closeBtn) {
-      closeBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        popupClose();
-      });
-    });
   }
 
   // call close popup func on popUp close click
@@ -232,39 +205,38 @@ document.addEventListener("DOMContentLoaded", () => {
       popupClose();
     }
   });
-  if (accordionItemTitles.length > 0) {
-    for (var i = 0; i < accordionItemTitles.length; i++) {
-      accordionItemTitles[i].addEventListener("click", function (event) {
-        event.preventDefault();
-        event.target.classList.toggle("active");
-        var accordionItemContent = event.target.nextElementSibling;
 
-        if (!accordionItemContent.classList.contains("active")) {
-          accordionItemContent.classList.add("active");
-          accordionItemContent.style.height = "auto";
+  for (let i = 0; i < accordionItemTitles.length; i++) {
+    accordionItemTitles[i].addEventListener("click", function (event) {
+      event.preventDefault();
+      event.target.classList.toggle("active");
+      let accordionItemContent = event.target.nextElementSibling;
 
-          var height = accordionItemContent.clientHeight + "px";
+      if (!accordionItemContent.classList.contains("active")) {
+        accordionItemContent.classList.add("active");
+        accordionItemContent.style.height = "auto";
 
-          accordionItemContent.style.height = "0px";
+        let height = accordionItemContent.clientHeight + "px";
 
-          setTimeout(function () {
-            accordionItemContent.style.height = height;
-          }, 0);
-        } else {
-          accordionItemContent.style.height = "0px";
+        accordionItemContent.style.height = "0px";
 
-          accordionItemContent.addEventListener(
-            "transitionend",
-            function () {
-              accordionItemContent.classList.remove("active");
-            },
-            {
-              once: true,
-            }
-          );
-        }
-      });
-    }
+        setTimeout(function () {
+          accordionItemContent.style.height = height;
+        }, 0);
+      } else {
+        accordionItemContent.style.height = "0px";
+
+        accordionItemContent.addEventListener(
+          "transitionend",
+          function () {
+            accordionItemContent.classList.remove("active");
+          },
+          {
+            once: true,
+          }
+        );
+      }
+    });
   }
 
   // custom Select
@@ -273,9 +245,13 @@ document.addEventListener("DOMContentLoaded", () => {
       customSelect.addEventListener("click", function () {
         this.querySelector(".custom-select").classList.toggle("open");
       });
-      for (const option of document.querySelectorAll(".custom-option")) {
-        option.addEventListener("click", function () {
+      for (const customOption of document.querySelectorAll(".custom-option")) {
+        customOption.addEventListener("click", function () {
           if (!this.classList.contains("selected")) {
+            let customInput = this.parentNode.parentNode.querySelector(
+              ".custom-select-input"
+            );
+            let inputOption = customInput.querySelector("option");
             this.parentNode
               .querySelector(".custom-option.selected")
               .classList.remove("selected");
@@ -283,14 +259,23 @@ document.addEventListener("DOMContentLoaded", () => {
             this.closest(".custom-select").querySelector(
               ".custom-select__trigger span"
             ).textContent = this.textContent;
+            this.dataset.value !== "def"
+              ? (inputOption.setAttribute("value", this.textContent),
+                inputOption.setAttribute("selected", true),
+                (inputOption.innerHTML = this.textContent))
+              : (inputOption.setAttribute("value", ""),
+                inputOption.removeAttribute("selected"),
+                (inputOption.innerHTML = ""));
           }
         });
       }
       window.addEventListener("click", function (e) {
-        const select = document.querySelector(".custom-select");
-        if (!select.contains(e.target)) {
-          select.classList.remove("open");
-        }
+        const select = document.querySelectorAll(".custom-select");
+        select.forEach((item) => {
+          if (!item.contains(e.target)) {
+            item.classList.remove("open");
+          }
+        });
       });
     });
   }
