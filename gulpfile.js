@@ -58,10 +58,12 @@ function browsersync() {
   browserSync.init({
     server: {
       baseDir: "./" + distFolder + "/",
+      // comment this part if u want to use pug
       middleware: bssi({
         baseDir: "./" + appFolder + "/",
         ext: ".html",
       }),
+      // ==========================
     },
     notify: false,
     online: true,
@@ -231,5 +233,5 @@ exports.default = series(
   scripts,
   images,
   styles,
-  parallel(browsersync, startwatch, assets, fonts, buildhtml)
+  parallel(browsersync, pugFunc, startwatch, assets, fonts, buildhtml)
 );

@@ -1,17 +1,14 @@
 @import 'config';
 
 .wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  // @include _widthVw(1400);
-  // @include _widthPercent(1400);
-  padding-right: 15%;
-  padding-left: 15%;
-  width: 100%;
+  width: calc(100% - 15vh);
+  margin: 0 auto;
   position: relative;
   height: 100%;
-  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .menu {
@@ -19,7 +16,10 @@
   display: flex;
 }
 
-.main {}
+.main {
+  width: 100%;
+  height: 100%;
+}
 
 .burger__menu {
   z-index: 2;
@@ -94,6 +94,8 @@
 
 .popup {
   @include _transition(all, .1s);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   position: fixed;
   width: 100%;
   height: 100%;
@@ -106,17 +108,18 @@
   justify-content: center;
   z-index: 100500;
   display: none;
+
+  // .popup__overlay 
+  &__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
+
 }
 
-.popup__overlay {
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-}
 
 input,
 textarea {
