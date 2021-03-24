@@ -1,6 +1,6 @@
-<div id="popup__form" class="popup modal__window popup--form animate__animated">
+<div class="popup modal__window popup--form animate__animated">
   <div class="popup__overlay close__popup"></div>
-  <form class="send__form form__popup animate__animated">
+  <form class="send__form popup__form animate__animated">
     <div class="close close__popup">
       <span></span>
     </div>
@@ -10,28 +10,23 @@
       name="name"
       placeholder="Введите имя"
       type="text"
-      class="form__popup-input"
+      class="popup__form-input"
     />
     <input
       required
       name="phone"
       placeholder="Введите телефон"
       type="tel"
-      class="form__popup-input telephone"
+      class="popup__form-input telephone"
     />
     <input
       required
       name="email"
       placeholder="Введите e-mail"
       type="email"
-      class="form__popup-input"
+      class="popup__form-input"
     />
 
-    <input
-      value="Отправить"
-      type="submit"
-      class="form__popup-btn btn"
-      id="popup__form-submit"
-    />
+    <input value="Отправить" type="submit" class="btn" />
   </form>
 </div>

@@ -1,4 +1,3 @@
-/** @format */
 // iport vendor script
 // import $ from "jquery";
 // import wow from "wowjs";
@@ -12,8 +11,9 @@ import loadingAttributePolyfill from "loading-attribute-polyfill";
 // require("./vendor/mail.js");
 // import module example (npm i -D jquery)
 
-// variable start
 document.addEventListener("DOMContentLoaded", () => {
+  // variable start
+  const menuItem = document.querySelectorAll(".menu-link");
   const phoneInput = document.querySelectorAll("input[type=tel]");
   const images = document.querySelectorAll("img");
   const modalWindows = document.querySelector(".modal__window");
@@ -30,14 +30,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.querySelector("body");
   const accordionItemTitles = document.querySelectorAll(".accordion-item");
   const customSelect = document.querySelectorAll(".custom-select-wrapper");
-  // variable start
+  // variable end
 
   let phoneMaskBy = new inputmask({
     mask: "+375-99-999-99-99",
     clearIncomplete: true,
     greedy: false,
   });
+  if (menuItem.length > 0) {
+    for (let i = 0; i < menuItem.length; i++) {
+      const item = menuItem[i];
+      item.parentNode.style.zIndex = 100 - i;
+      let dorpMenu = item.parentNode.querySelector(".menu-dropdown");
+      let arrow = document.createElement("span");
+      arrow.classList.add("arrow");
+      arrow.classList.add("arrow--menu");
+      if (dorpMenu) {
+        item.parentNode.appendChild(arrow);
 
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+              navigator.userAgent
+            )
+          ) {
+            if (e.currentTarget.parentNode.classList.contains("--open")) {
+              e.currentTarget.parentNode.classList.remove("--open");
+              // e.currentTarget.parentNode.style.zIndex = "1";
+            } else {
+              // e.currentTarget.parentNode.style.zIndex = "5";
+              e.currentTarget.parentNode.classList.add("--open");
+            }
+
+            // item.parentNode.style.zIndex = "5";
+          }
+        });
+      }
+    }
+  }
   // Toggle popup function
   const popupToggle = (
     popUp,
@@ -215,9 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!accordionItemContent.classList.contains("active")) {
         accordionItemContent.classList.add("active");
         accordionItemContent.style.height = "auto";
-
         let height = accordionItemContent.clientHeight + "px";
-
         accordionItemContent.style.height = "0px";
 
         setTimeout(function () {

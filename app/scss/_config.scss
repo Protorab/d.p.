@@ -1,9 +1,11 @@
 // USER VARIABLES SECTION
-$accent: #417486; // Accent Color
-$accentSecond: rgb(196, 28, 48); // Accent Second Color
-$mainColor:#003e59; // Body Background Color
+$accent: #5BD2F3; // Accent Color
+$accentSecond: #E7552B; // Accent Second Color
+$accentThird: #F0A21A; // Accent Third Color
+$mainColor:#1B556F; // Body Background Color
 $fontSize: 10px; // Body Font Size
 $textColor: #eaf2f5; // Text Color
+$textSecondColor: #b0b1b1; // Text Color
 $lineHeight: 1.65; // Document Line Height
 $userFont: Roboto,
 sans-serif; // User Font Family
@@ -321,6 +323,7 @@ html {
 	-webkit-tap-highlight-color: transparent;
 	scroll-behavior: smooth;
 	text-rendering: optimizeLegibility;
+	height: 100%;
 
 	@media only screen and(max-width:1024px) {
 		&::-webkit-scrollbar {
@@ -358,6 +361,12 @@ body {
 	background: $mainColor;
 	color: $textColor;
 	min-width: 320px;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
 	position: relative;
 	overflow-x: hidden;
 }
@@ -377,7 +386,7 @@ section,
 
 .t,
 h {
-	@for $i from 1 through 10 {
+	@for $i from 1 through 6 {
 		&#{$i} {
 			margin: 0;
 			padding: 0;
@@ -405,7 +414,11 @@ h {
 	}
 
 	&5 {
-		@include adaptive(font-size, 20, 13, 0);
+		@include adaptive(font-size, 20, 15, 0);
+	}
+
+	&6 {
+		@include adaptive(font-size, 18, 14, 0);
 	}
 }
 
