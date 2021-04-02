@@ -16,17 +16,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuItem = document.querySelectorAll(".menu-link");
   const phoneInput = document.querySelectorAll("input[type=tel]");
   const images = document.querySelectorAll("img");
-  const modalWindows = document.querySelector(".modal__window");
+
   const phoneLink = document.querySelectorAll("a[href^='tel']");
   const showPhotos = document.querySelectorAll(".show__photo");
   const popupPhoto = document.querySelector("#popup__photo");
   const popupPhotoImg = document.querySelector(".photo__popup-img");
   const popupPhotoTitle = document.querySelector(".photo__popup-title");
-  const showPopup = document.querySelectorAll(".show__popup");
+  const showModalBtns = document.querySelectorAll(".show__modal");
   const closePopup = document.querySelectorAll(".close__popup");
   const sendForms = document.querySelectorAll(".send__form");
   const burgerMenu = document.querySelector(".burger__menu");
-  const menu = document.querySelector(".menu");
+  const menu = document.querySelector(".menu-nav");
   const body = document.querySelector("body");
   const accordionItemTitles = document.querySelectorAll(".accordion-item");
   const customSelect = document.querySelectorAll(".custom-select-wrapper");
@@ -37,38 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
     clearIncomplete: true,
     greedy: false,
   });
-  if (menuItem.length > 0) {
-    for (let i = 0; i < menuItem.length; i++) {
-      const item = menuItem[i];
-      item.parentNode.style.zIndex = 100 - i;
-      let dorpMenu = item.parentNode.querySelector(".menu-dropdown");
-      let arrow = document.createElement("span");
-      arrow.classList.add("arrow");
-      arrow.classList.add("arrow--menu");
-      if (dorpMenu) {
-        item.parentNode.appendChild(arrow);
 
-        item.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-              navigator.userAgent
-            )
-          ) {
-            if (e.currentTarget.parentNode.classList.contains("--open")) {
-              e.currentTarget.parentNode.classList.remove("--open");
-              // e.currentTarget.parentNode.style.zIndex = "1";
-            } else {
-              // e.currentTarget.parentNode.style.zIndex = "5";
-              e.currentTarget.parentNode.classList.add("--open");
-            }
+  const attrClear = (item, attr, sw) => {
+    let str = item.getAttribute(attr);
 
-            // item.parentNode.style.zIndex = "5";
-          }
-        });
+    if (str) {
+      switch (sw) {
+        case 1:
+          item.setAttribute(attr, str.replace(/<\/?[^>]+(>|$)/g, ""));
+          break;
+        case 2:
+          item.setAttribute(attr, str.replace(/\s+/g, ""));
+          break;
+        default:
+          break;
       }
     }
-  }
+  };
+
   // Toggle popup function
   const popupToggle = (
     popUp,
@@ -89,50 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
       popUp.style.display = state;
     }, timing);
   };
-  // popup Close function start
-  const popupClose = () => {
-    if (window.getComputedStyle(modalWindows).display === "flex") {
-      const formItem = modalWindows.querySelector("form");
-      popupToggle(
-        modalWindows,
-        formItem,
-        "animate__fadeOut",
-        "animate__bounceOutUp",
-        "animate__fadeIn",
-        "animate__bounceInDown",
-        "none",
-        1000
-      );
-    }
-  };
-  const attrClear = (item, attr, sw) => {
-    let str = item.getAttribute(attr);
-
-    if (str) {
-      switch (sw) {
-        case 1:
-          item.setAttribute(attr, str.replace(/<\/?[^>]+(>|$)/g, ""));
-          break;
-        case 2:
-          item.setAttribute(attr, str.replace(/\s+/g, ""));
-          break;
-        default:
-          break;
-      }
-    }
-  };
-  // phone link clear white space
-  if (phoneLink.length > 0) {
-    phoneLink.forEach((link) => {
-      attrClear(link, "href", 2);
-    });
-  }
-  if (images.length > 0) {
-    images.forEach((img) => {
-      attrClear(img, "title", 1);
-      attrClear(img, "alt", 1);
-    });
-  }
 
   //  class removable function
   const classRemove = (element, removeClass) => {
@@ -141,12 +83,76 @@ document.addEventListener("DOMContentLoaded", () => {
       elementClass.classList.remove(removeClass);
     }
   };
+
+  // popup Close function start
+  const popupClose = () => {
+    const modals = document.querySelectorAll(".modal");
+    modals.forEach((modal) => {
+      if (window.getComputedStyle(modal).display === "flex") {
+        const modalContent = modal.querySelector(".modal-content");
+        popupToggle(
+          modal,
+          modalContent,
+          "animate__fadeOut",
+          "animate__bounceOutUp",
+          "animate__fadeIn",
+          "animate__bounceInDown",
+          "none",
+          1000
+        );
+      }
+    });
+  };
+
+  if (menuItem.length > 0) {
+    for (let i = 0; i < menuItem.length; i++) {
+      const item = menuItem[i];
+      item.parentNode.style.zIndex = 100 - i;
+      let dorpMenu = item.parentNode.querySelector(".menu-dropdown");
+      let arrow = document.createElement("span");
+      arrow.classList.add("arrow");
+      arrow.classList.add("arrow--menu");
+      if (dorpMenu) {
+        item.parentNode.appendChild(arrow);
+
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+              navigator.userAgent
+            )
+          ) {
+            if (e.currentTarget.parentNode.classList.contains("--open")) {
+              e.currentTarget.parentNode.classList.remove("--open");
+            } else {
+              e.currentTarget.parentNode.classList.add("--open");
+            }
+          }
+        });
+      }
+    }
+  }
+  // phone link clear white space
+  if (phoneLink.length > 0) {
+    phoneLink.forEach((link) => {
+      attrClear(link, "href", 2);
+    });
+  }
+
+  if (images.length > 0) {
+    images.forEach((img) => {
+      attrClear(img, "title", 1);
+      attrClear(img, "alt", 1);
+    });
+  }
+
   // inputmask for phone input
   if (phoneInput.length > 0) {
     phoneInput.forEach((phoneMask) => {
       phoneMaskBy.mask(phoneMask);
     });
   }
+
   // showPhotos click
   if (showPhotos.length > 0) {
     showPhotos.forEach((showPhoto) => {
@@ -173,8 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
   //  burgerMenu function
   if (burgerMenu) {
     burgerMenu.addEventListener("click", function (e) {
-      this.classList.toggle("__clicked");
-      menu.classList.toggle("__show");
+      this.classList.toggle("--clicked");
+      menu.classList.toggle("--show");
       e.preventDefault;
     });
   }
@@ -192,23 +198,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // hide menu on scroll
   window.addEventListener("scroll", function () {
-    classRemove(".burger__menu.__clicked", "__clicked");
-    classRemove(".menu.__show", "__show");
+    classRemove(".burger__menu.--clicked", "--clicked");
+    classRemove(".menu-nav.--show", "--show");
   });
 
   // show popUp start
-  if (showPopup.length > 0) {
-    for (let i = 0; i < showPopup.length; i++) {
-      const btn = showPopup[i];
+  if (showModalBtns.length > 0) {
+    for (let i = 0; i < showModalBtns.length; i++) {
+      const btn = showModalBtns[i];
       btn.addEventListener("click", function (e) {
         const popupType = this.dataset.type;
+        const targetModel = document.querySelector("#modal__" + popupType + "");
         e.preventDefault();
-        const targetPopup = document.querySelector(".popup--" + popupType + "");
-
-        const targetPopupForm = targetPopup.querySelector("form");
+        const targetModelItem = targetModel.querySelector(".modal-content");
         popupToggle(
-          targetPopup,
-          targetPopupForm,
+          targetModel,
+          targetModelItem,
           "animate__fadeIn",
           "animate__bounceInDown",
           "animate__fadeOut",

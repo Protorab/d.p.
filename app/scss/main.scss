@@ -1,35 +1,93 @@
 @import 'config';
 
 .wrapper {
-  width: calc(100% - 15vh);
+  max-width: 1650px;
+  width: calc(100% - 80px);
   margin: 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-}
 
-// .contacts
-.contacts {
+  @media only screen and (min-width: 1680px) {
+    width: 100%;
+  }
 
-  // .contacts__links 
-  &__links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+  @media only screen and (max-width : 1024px) {
+    width: calc(100% - 55px);
 
-    // .contacts__links-item 
-    &-item {}
+  }
+
+  @media only screen and (max-width : 600px) {
+    width: calc(100% - 30px);
   }
 }
 
-.nav {
+.burger__menu {
+  z-index: 2;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+  // border: 1px salmon solid;
 
-  // .nav-menu
-  &-menu {
-    width: 100%;
+  span {
+    display: block;
+    // position: absolute;
+    width: 40px;
+    height: 5px;
+    background: $accent;
+    @include _borderRadius(2px);
+    @include _transition(all, .5s);
+    opacity: 1;
+
+
+    &:nth-child(1) {}
+
+    &:nth-child(2) {}
+
+    &:nth-child(3) {}
+  }
+
+  &.--clicked {
+    span {
+
+
+      &:nth-child(1) {
+        transform: rotate(45deg)translate(9px, 10px);
+        // top: 17.5px;
+      }
+
+      &:nth-child(2) {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: rotate(-45deg)translate(9px, -10px);
+        // bottom: 17.5px;
+      }
+    }
+
+
+  }
+
+
+  @media only screen and (max-width : 1024px) {
+    display: flex;
+  }
+
+}
+
+.menu {
+
+  // .menu-nav 
+  &-nav {
+    width: 70%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,11 +122,8 @@
     @media only screen and (max-width : 600px) {
       padding-top: 100px;
     }
-
   }
-}
 
-.menu {
   list-style: none;
   display: flex;
   width: 100%;
@@ -330,13 +385,27 @@
 }
 
 .header {
+  @include _transition(all, .5s);
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $mainColor;
 
-  // .header__wrap 
-  &__wrap {
-    display: flex;
-    width: 100%;
-    align-items: center;
+  // .header-wrapper
+  &-wrapper {
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.logo {
+  width: 80px;
+
+  img {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -347,78 +416,7 @@
   justify-content: space-between;
 }
 
-.burger__menu {
-  z-index: 2;
-  display: none;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  cursor: pointer;
-
-  span {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 5px;
-    background: $accent;
-    @include _borderRadius(5px);
-    @include _transition(all, .5s);
-    top: 50%;
-    right: 50%;
-    opacity: 1;
-
-    transform: translate(50%, -50%);
-  }
-
-  &::before,
-  &::after {
-    position: absolute;
-    background: $accent;
-    @include _borderRadius(5px);
-    @include _transition(all, .5s);
-    width: 100%;
-    height: 5px;
-    display: block;
-    content: '';
-  }
-
-  &::before {
-    top: 3px;
-    // left: 0;
-  }
-
-  &::after {
-    bottom: 3px;
-    // left: 0;
-  }
-
-  &.__clicked {
-    span {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-
-    &::before {
-      transform: rotate(-225deg);
-      top: 17.5px;
-    }
-
-    &::after {
-      transform: rotate(225deg);
-      bottom: 17.5px;
-
-
-
-    }
-  }
-
-  @media only screen and (max-width : 1024px) {
-    display: flex;
-  }
-
-}
-
-.popup {
+.modal {
   @include _transition(all, .1s);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -435,8 +433,8 @@
   z-index: 100500;
   display: none;
 
-  // .popup__overlay 
-  &__overlay {
+  // .modal-overlay 
+  &-overlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -444,23 +442,49 @@
     cursor: pointer;
   }
 
-  // .popup__form 
-  &__form {
+  // .modal-content 
+  &-content {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    background: $mainColor;
-    @include _borderRadius(5px);
-    @include _transition(all, .1s);
-    -webkit-animation-duration: .5s;
-    animation-duration: .5s;
-    z-index: 2;
     width: 95%;
     max-width: 500px;
-    padding: 50px 20px;
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s;
+  }
 
-    // .popup__form-input 
-    &-input {
+  // .modal-form 
+  &-form {
+    @include _transition(all, .5s);
+    background: $mainColor;
+    z-index: 2;
+
+    // .modal-form__content 
+    &__content {
+      border: none;
+      padding: 100px 20px 50px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    // .modal-form__title 
+    &__title {
+      position: absolute;
+      display: flex;
+      @extend .t3;
+      text-transform: uppercase;
+      margin-left: auto;
+      margin-right: auto;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      padding: 0 25px;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    // .modal-form__input 
+    &__input {
       margin-bottom: 10px;
 
       &:last-child {
@@ -468,7 +492,7 @@
       }
     }
 
-    // .popup__form-textarea 
+    // .modal-form__textarea 
     &-textarea {
       margin-bottom: 15px;
     }
@@ -484,13 +508,10 @@
   width: 25px;
   height: 25px;
   display: flex;
-
   @include _transition(transform, .3s);
 
   span {
-    @include _borderRadius(5%);
     position: absolute;
-    // top: 0%;
     right: 0%;
     transform: rotate(45deg);
     display: block;
@@ -499,24 +520,30 @@
     height: 3px;
     bottom: 10px;
 
-    &::before {
-      @include _borderRadius(5%); // top: 0%;
-      right: 0%;
-      bottom: 10px;
-      content: '';
-      position: absolute;
-      top: 0;
-      transform: rotate(-90deg);
-      display: block;
-      background: $textColor;
-      width: 100%;
-      height: 3px;
+    &:nth-child(2) {
+
+      transform: rotate(-45deg);
     }
   }
 
   &:hover {
     transform: scale(1.1);
   }
+}
+
+.test {
+  width: 100%;
+  height: auto;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: -20px;
+}
+
+.coll {
+  margin: 20px;
 }
 
 footer {
@@ -535,6 +562,9 @@ textarea {
   color: $textColor;
 }
 
+textarea {
+  height: 150px;
+}
 
 // .custom
 .custom {
@@ -725,13 +755,16 @@ textarea {
   height: 35px;
   align-items: center;
   justify-content: center;
-
-
   background: $accentThird;
   color: #fff;
 
   &:hover {
     background: $accentSecond;
+  }
+
+  // .btn__modal 
+  &__modal {
+    margin-top: 25px;
   }
 }
 

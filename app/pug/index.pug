@@ -1,8 +1,16 @@
-include includes/head.pug
-body
-  include includes/header.pug
-  main(role='main')
-    .wrapper
-      section.section       
-        a.btn.show__popup(data-type="form",href="#") Тык
-  include includes/footer.pug
+doctype html
+html(lang="en")
+  include includes/main/_head.pug
+  body
+    include includes/main/_header.pug
+    main.main
+      .wrapper
+        section.section
+          .row
+            .coll
+              img(src="img/img_1.jpg", alt="modal", data-type="photo").show__modal.test
+            .coll
+              img(src="img/img_1.jpg", alt="modal", data-type="photo").show__modal.test
+            .coll
+              img(src="img/img_1.jpg", alt="modal", data-type="photo").show__modal.test
+    include includes/main/_footer.pug

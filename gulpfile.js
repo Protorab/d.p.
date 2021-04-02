@@ -59,10 +59,10 @@ function browsersync() {
     server: {
       baseDir: "./" + distFolder + "/",
       // comment this part if u want to use pug
-      middleware: bssi({
-        baseDir: "./" + appFolder + "/",
-        ext: ".html",
-      }),
+      // middleware: bssi({
+      //   baseDir: "./" + appFolder + "/",
+      //   ext: ".html",
+      // }),
       // ==========================
     },
     notify: false,
@@ -104,6 +104,7 @@ function styles() {
       autoprefixer({ overrideBrowserslist: ["last 10 versions"], grid: true })
     )
     .pipe(groupMedia())
+    .pipe(dest(path.build.css))
     .pipe(
       cleanCss({
         level: {
@@ -233,5 +234,5 @@ exports.default = series(
   scripts,
   images,
   styles,
-  parallel(browsersync, pugFunc, startwatch, assets, fonts, buildhtml)
+  parallel(browsersync, startwatch, assets, fonts, buildhtml, pugFunc)
 );

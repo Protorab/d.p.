@@ -1,0 +1,32 @@
+#modal__form.modal.animate__animated
+  .modal-overlay.close__popup
+  .modal-content.animate__animated
+    .close.close__popup
+      span
+      span
+    form.send__form.modal-form(action="#")
+      fieldset.modal-form__content
+        legend.modal-form__title Заголовок формы      
+        input.modal-form__input(
+          required,
+          placeholder="Введите имя",
+          type="text",
+          name="name",
+          )
+        input.modal-form__input(
+          required,
+          placeholder="Введите телефон",
+          type="tel",
+          name="phone",
+          )
+        input.modal-form__input(
+          required,
+          placeholder="Введите e-mail",
+          type="email",
+          name="E-mail")
+        textarea.modal-form__textarea(
+          name="Сообщение",
+          cols="30",
+          rows="10",
+          placeholder="Введите текст")
+        input(type="submit").btn.btn__modal      
