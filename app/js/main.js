@@ -3,6 +3,8 @@
 // import wow from "wowjs";
 import inputmask from "inputmask";
 import loadingAttributePolyfill from "loading-attribute-polyfill";
+import Vue from "vue";
+const vue = require("vue");
 // const WOW = require("wowjs");
 // window.wow = new wow.WOW();
 // window.wow.init();
